@@ -98,6 +98,7 @@
 #define SUN4I_CODEC_ADC_ACTL_ADCIS			(17)
 #define SUN4I_CODEC_ADC_ACTL_PA_EN			(4)
 #define SUN4I_CODEC_ADC_ACTL_DDE			(3)
+#define SUN4I_CODEC_ADC_ACTL_COMPTEN			(2)
 #define SUN4I_CODEC_ADC_DEBUG			(0x2c)
 
 /* FIFO counters */
@@ -648,6 +649,10 @@ static const struct snd_kcontrol_new sun4i_codec_controls[] = {
 	SOC_SINGLE_TLV("Power Amplifier Volume", SUN4I_CODEC_DAC_ACTL,
 		       SUN4I_CODEC_DAC_ACTL_PA_VOL, 0x3F, 0,
 		       sun4i_codec_pa_volume_scale),
+	SOC_SINGLE("DDE Enable Switch", SUN4I_CODEC_ADC_ACTL,
+		   SUN4I_CODEC_ADC_ACTL_DDE, 1, 0),
+	SOC_SINGLE("COMPTEN Enable Switch", SUN4I_CODEC_ADC_ACTL,
+		   SUN4I_CODEC_ADC_ACTL_COMPTEN, 1, 0),
 };
 
 static const struct snd_kcontrol_new sun4i_codec_left_mixer_controls[] = {
@@ -717,6 +722,7 @@ static const struct snd_soc_dapm_widget sun4i_codec_codec_dapm_widgets[] = {
 			   SUN4I_CODEC_ADC_ACTL_PA_EN, 0,
 			   sun4i_codec_pa_mixer_controls,
 			   ARRAY_SIZE(sun4i_codec_pa_mixer_controls)),
+
 	SND_SOC_DAPM_SWITCH("Power Amplifier Mute", SND_SOC_NOPM, 0, 0,
 			    &sun4i_codec_pa_mute),
 
