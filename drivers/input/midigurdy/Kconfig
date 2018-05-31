@@ -5,7 +5,7 @@ menuconfig INPUT_MIDIGURDY
 	bool "MidiGurdy Input Devices"
 	default n
 	help
-	  Say Y here, and a list of supported MidiGurdy input devices 
+	  Say Y here, and a list of supported MidiGurdy input devices
 	  will be displayed. This option doesn't affect the kernel.
 
 	  If unsure, say N.
@@ -20,5 +20,15 @@ config MIDIGURDY_KEYS
 
 	  To compile this driver as a module, choose M here: the module will
 	  be called mgurdy-keys.
+
+config MIDIGURDY_GPIO_KEYS
+	tristate "GPIO-keys Support for MidiGurdy"
+	depends on INPUT
+	help
+	  This option enables support for gpio-keys that support short and
+          long presses, used by the MidiGurdy
+
+	  To compile this driver as a module, choose M here: the module will
+	  be called mgurdy-gpio-keys.
 
 endif
