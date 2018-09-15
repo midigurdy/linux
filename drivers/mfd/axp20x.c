@@ -29,7 +29,7 @@
 #include <linux/of_device.h>
 #include <linux/acpi.h>
 
-#define AXP20X_OFF	0x80
+#define AXP20X_OFF	0xC2
 
 #define AXP806_REG_ADDR_EXT_ADDR_MASTER_MODE	0
 #define AXP806_REG_ADDR_EXT_ADDR_SLAVE_MODE	BIT(4)
