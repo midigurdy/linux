@@ -28,6 +28,7 @@
 #include <linux/mfd/core.h>
 #include <linux/of_device.h>
 #include <linux/acpi.h>
+#include <linux/gpio.h>
 
 #define AXP20X_OFF	0xC2
 
@@ -884,6 +885,9 @@ static void axp20x_power_off(void)
 {
 	if (axp20x_pm_power_off->variant == AXP288_ID)
 		return;
+
+	/* disable 5V rail via GPIO A9 */
+	gpio_set_value(9, 0);
 
 	regmap_write(axp20x_pm_power_off->regmap, AXP20X_OFF_CTRL,
 		     AXP20X_OFF);
