@@ -1,0 +1,24 @@
+#
+# Input core configuration
+#
+menuconfig INPUT_MIDIGURDY
+	bool "MidiGurdy Input Devices"
+	default n
+	help
+	  Say Y here, and a list of supported MidiGurdy input devices 
+	  will be displayed. This option doesn't affect the kernel.
+
+	  If unsure, say N.
+
+if INPUT_MIDIGURDY
+
+config MIDIGURDY_KEYS
+	tristate "Keyboard Support for MidiGurdy"
+	depends on INPUT
+	help
+	  This option enables support for the keyboard sensor ADC matrix.
+
+	  To compile this driver as a module, choose M here: the module will
+	  be called mgurdy-keys.
+
+endif
