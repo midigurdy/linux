@@ -855,4 +855,13 @@ config INPUT_HISI_POWERKEY
 	  To compile this driver as a module, choose M here: the
 	  module will be called hisi_powerkey.
 
+config INPUT_MLX90363
+	tristate "MLX90363 Rotatry Sensor support"
+	depends on INPUT && SPI
+	help
+	  Say Y to enable support for the Melexix 90363 rotary sensor.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called mlx90363.
+
 endif
