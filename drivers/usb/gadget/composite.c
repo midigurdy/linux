@@ -2027,6 +2027,23 @@ static ssize_t suspended_show(struct device *dev, struct device_attribute *attr,
 }
 static DEVICE_ATTR_RO(suspended);
 
+static ssize_t configuration_show(struct device *dev,
+				  struct device_attribute *attr, char *buf)
+{
+	struct usb_gadget *gadget = dev_to_usb_gadget(dev);
+	struct usb_composite_dev *cdev = get_gadget_data(gadget);
+	unsigned long flags;
+	int num = -1;
+
+	spin_lock_irqsave(&cdev->lock, flags);
+	if (cdev->config)
+		num = cdev->config->bConfigurationValue;
+	spin_unlock_irqrestore(&cdev->lock, flags);
+
+	return sprintf(buf, "%d\n", num);
+}
+static DEVICE_ATTR_RO(configuration);
+
 static void __composite_unbind(struct usb_gadget *gadget, bool unbind_driver)
 {
 	struct usb_composite_dev	*cdev = get_gadget_data(gadget);
@@ -2121,6 +2138,10 @@ int composite_dev_prepare(struct usb_composite_driver *composite,
 	if (ret)
 		goto fail_dev;
 
+	ret = device_create_file(&gadget->dev, &dev_attr_configuration);
+	if (ret)
+		goto fail_dev;
+
 	cdev->req->complete = composite_setup_complete;
 	cdev->req->context = cdev;
 	gadget->ep0->driver_data = cdev;
@@ -2197,6 +2218,7 @@ void composite_dev_cleanup(struct usb_composite_dev *cdev)
 	}
 	cdev->next_string_id = 0;
 	device_remove_file(&cdev->gadget->dev, &dev_attr_suspended);
+	device_remove_file(&cdev->gadget->dev, &dev_attr_configuration);
 }
 
 static int composite_bind(struct usb_gadget *gadget,
